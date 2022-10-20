@@ -7,15 +7,19 @@ const { errors } = require('celebrate');
 const userRoutes = require('./routes/users');
 const movieRoutes = require('./routes/movies');
 const auth = require('./middlewares/auth');
+const cors = require('./middlewares/cors');
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { login, createUser } = require('./controllers/users');
+const { validateLogin, validateCreateUser } = require('./middlewares/validator');
 
 const { PORT } = process.env;
 
 const app = express();
 
 app.use(requestLogger);
+
+app.use(cors);
 
 mongoose.connect('mongodb://localhost:27017/moviedb', {
   useNewUrlParser: true,
@@ -25,8 +29,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signin', validateLogin, login);
+app.post('/signup', validateCreateUser, createUser);
 
 app.use(auth);
 

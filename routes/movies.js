@@ -7,9 +7,10 @@ const {
   createMovie,
   deleteMovie,
 } = require('../controllers/movies');
+const { validateCreateMovie, validateMovieId } = require('../middlewares/validator');
 
 movieRoutes.get('/', getMovies);
-movieRoutes.patch('/', createMovie);
-movieRoutes.patch('/_id', deleteMovie);
+movieRoutes.patch('/', validateCreateMovie, createMovie);
+movieRoutes.patch('/_id', validateMovieId, deleteMovie);
 
 module.exports = movieRoutes;
