@@ -21,6 +21,11 @@ const movieSchema = new mongoose.Schema({
     default: '2000',
     required: true,
   },
+  country: {
+    type: String,
+    default: 'Russia',
+    required: true,
+  },
   description: {
     type: String,
     default: 'Simon',
