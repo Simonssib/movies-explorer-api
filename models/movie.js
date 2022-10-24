@@ -1,47 +1,53 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const movieSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: 'Simon',
     required: true,
   },
   director: {
     type: String,
-    default: 'Simon',
     required: true,
   },
   duration: {
     type: Number,
-    default: '0',
     required: true,
   },
   year: {
     type: String,
-    default: '2000',
     required: true,
   },
   country: {
     type: String,
-    default: 'Russia',
     required: true,
   },
   description: {
     type: String,
-    default: 'Simon',
     required: true,
   },
   image: {
     type: String,
-    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+    required: true,
+    validate: {
+      validator: (v) => validator.isURL(v),
+      message: 'Неккорректная ссылка',
+    },
   },
-  trailerLink: {
+  trailer: {
     type: String,
-    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+    validate: {
+      validator: (v) => validator.isURL(v),
+      message: 'Неккорректная ссылка',
+    },
   },
   thumbnail: {
     type: String,
-    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+    required: true,
+    validate: {
+      validator: (v) => validator.isURL(v),
+      message: 'Неккорректная ссылка',
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -55,12 +61,10 @@ const movieSchema = new mongoose.Schema({
   },
   nameRU: {
     type: String,
-    default: 'фильм',
     required: true,
   },
   nameEN: {
     type: String,
-    default: 'film',
     required: true,
   },
 });

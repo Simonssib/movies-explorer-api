@@ -39,6 +39,10 @@ const updateUserInformation = (req, res, next) => {
         next(new NotFoundError('Запрашиваемый пользователь не найден'));
         return;
       }
+      if (err.name === 'MongoServerError') {
+        next(new ConflictError('Пользователь с таким email уже существует'));
+        return;
+      }
       next(err);
     });
 };
@@ -100,9 +104,15 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
+const signOut = (req, res) => {
+  res.clearCookie('jwt')
+    .send({ message: 'вы вышли' });
+};
+
 module.exports = {
   getUser,
   updateUserInformation,
   createUser,
   login,
+  signOut,
 };
