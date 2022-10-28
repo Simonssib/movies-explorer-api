@@ -6,7 +6,6 @@ const User = require('../models/user');
 const BadRequestError = require('../errors/bad-request-error');
 const NotFoundError = require('../errors/not-found-err');
 const ConflictError = require('../errors/conflict-error');
-const UnauthorizedError = require('../errors/unauthorized-error');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -102,13 +101,7 @@ const login = (req, res, next) => {
         })
         .end();
     })
-    .catch((err) => {
-      if (err.code === 403) {
-        next(new UnauthorizedError('Некорректные логин и пароль'));
-        return;
-      }
-      next(err);
-    });
+    .catch(next);
 };
 
 const signOut = (req, res) => {
