@@ -40,12 +40,12 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new UnauthorizedError('Ошибка авторизации');
+        throw new UnauthorizedError('Такой пользователь не найден');
       }
       return compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            throw new UnauthorizedError('Неправильные почта и пароль');
+            throw new UnauthorizedError('Неправильный пароль');
           }
           return user;
         });
