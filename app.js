@@ -9,7 +9,7 @@ const cors = require('./middlewares/cors');
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT, MONGO_URL } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(requestLogger);
 
 app.use(cors);
 
-mongoose.connect(MONGO_URL, {
+mongoose.connect('mongodb://localhost:27017/moviesdb', {
   useNewUrlParser: true,
 });
 

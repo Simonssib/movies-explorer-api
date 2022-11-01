@@ -45,7 +45,7 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
       return compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            throw new UnauthorizedError('Ошибка авторизации');
+            throw new UnauthorizedError('Неправильные почта и пароль');
           }
           return user;
         });

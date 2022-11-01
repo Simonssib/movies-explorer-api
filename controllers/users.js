@@ -23,8 +23,8 @@ const getUser = (req, res, next) => {
 
 const updateUserInformation = (req, res, next) => {
   const userId = req.user._id;
-  const { name, about } = req.body;
-  User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
+  const { email, name } = req.body;
+  User.findByIdAndUpdate(userId, { email, name }, { new: true, runValidators: true })
     .then((user) => {
       if (user === null) {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
@@ -39,7 +39,7 @@ const updateUserInformation = (req, res, next) => {
         next(new NotFoundError('Запрашиваемый пользователь не найден'));
         return;
       }
-      if (err.name === 'MongoServerError') {
+      if (err.code === 11000) {
         next(new ConflictError('Пользователь с таким email уже существует'));
         return;
       }

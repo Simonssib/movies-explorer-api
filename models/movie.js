@@ -4,7 +4,6 @@ const validator = require('validator');
 const movieSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
   },
   director: {
     type: String,
@@ -55,8 +54,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   movieId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'movie',
+    type: Number,
     required: true,
   },
   nameRU: {
