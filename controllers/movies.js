@@ -47,7 +47,7 @@ const createMovie = (req, res, next) => {
 };
 
 const deleteMovie = (req, res, next) => {
-  const { movieId } = req.params.movieId;
+  const { movieId } = req.params;
   Movie.findById(movieId)
     .then((movie) => {
       if (!movie) {
