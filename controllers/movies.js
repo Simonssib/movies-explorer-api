@@ -47,18 +47,18 @@ const createMovie = (req, res, next) => {
 };
 
 const deleteMovie = (req, res, next) => {
-  const { movieId } = req.params;
-  Movie.findById(movieId)
+  Movie.findById(req.params._id)
+    .orFail(() => {
+      throw new NotFoundError('Фильм с указанным _id не найден');
+    })
     .then((movie) => {
-      if (!movie) {
-        throw new NotFoundError('Фильм с указанным _id не найден');
-      }
       if (JSON.stringify(movie.owner) !== JSON.stringify(req.user._id)) {
         throw new ForbiddenError('Недостаточно прав для удаления фильма');
       }
-      return Movie.remove(movie);
+      return movie
+        .remove()
+        .then(() => res.status(200).send({ message: 'Фильм удален' }));
     })
-    .then(() => res.status(200).send({ message: 'Фильм удален' }))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Некорректный id'));
