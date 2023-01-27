@@ -11,7 +11,7 @@
 - MongoDB
 - mongoose
 
-**Инструкция по запуску:
+**Инструкция по запуску:**
 Склонировать себе код командой:
 ```sh
 git clone https://github.com/Simonssib/movies-explorer-api.git
